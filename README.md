@@ -10,30 +10,26 @@ The process of sentiment analysis using VADER model can be described as follows:
 VADER is a lexicon- and rule-based sentiment analysis tool that is specifically designed to work with social media text. It is a free and open-source tool that can be used to analyze text in a variety of languages. VADER is a popular choice for sentiment analysis because it is easy to use and produces accurate results.
 ## Program:
 ```python3
+import nltk
 import pandas as pd
-import vaderSentiment as vs
-
-# Read the Excel file
-df = pd.read_excel('output.xlsx')
-
-# Create a VADERSentiment object
-analyzer = vs.vaderSentiment.SentimentIntensityAnalyzer()
-
-# Calculate the sentiment scores for each text
-sentiment_scores = []
-for text in df['Text']:
-    sentiment_scores.append(analyzer.polarity_scores(text))
-
-# Create a list of the texts
-texts = list(df['Text'])
-
-# Display the sentiment scores for each text
-for text, sentiment_score in zip(texts, sentiment_scores):
-    print("\n\nText:", text)
-    print("Positive:", sentiment_score['pos'])
-    print("Negative:", sentiment_score['neg'])
-    print("Neutral:", sentiment_score['neu'])
-    print("Compound:", sentiment_score['compound'])
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+nltk.downloader.download('vader_lexicon')
+file='/content/adsfacebook.xlsx'
+xl=pd.ExcelFile(file)
+dfs=xl.parse(xl.sheet_names[0])
+# dfs=list(dfs['Timeline'])
+print(dfs)
+sid=SentimentIntensityAnalyzer()
+str1='UTC+05:30'
+for data in dfs:
+  a=data.find(str1)
+  if(a==-1):
+    ss=sid.polarity_scores(data)
+    print(data)
+    for k in ss:
+      print(k,ss[k])
 ```
 
 ## Output:
+![image](https://github.com/manojvenaram/Implementation-of-Sentimental-Analysis/assets/94165064/6c4af937-3bbb-4011-9ae1-8edbc78856d4)
+
